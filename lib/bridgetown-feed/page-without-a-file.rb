@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module JekyllFeed
-  class PageWithoutAFile < Jekyll::Page
+module BridgetownFeed
+  class PageWithoutAFile < Bridgetown::Page
     def read_yaml(*)
       @data ||= {}
     end

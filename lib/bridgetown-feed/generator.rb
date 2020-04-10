@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
-module JekyllFeed
-  class Generator < Jekyll::Generator
-    safe true
+module BridgetownFeed
+  class Generator < Bridgetown::Generator
     priority :lowest
 
-    # Main plugin action, called by Jekyll-core
+    # Main plugin action, called by Bridgetown-core
     def generate(site)
       @site = site
       collections.each do |name, meta|
-        Jekyll.logger.info "Jekyll Feed:", "Generating feed for #{name}"
+        Bridgetown.logger.info "Bridgetown Feed:", "Generating feed for #{name}"
         (meta["categories"] + [nil]).each do |category|
           path = feed_path(:collection => name, :category => category)
           next if file_exists?(path)

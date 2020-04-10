@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module JekyllFeed
+module BridgetownFeed
   class MetaTag < Liquid::Tag
-    # Use Jekyll's native relative_url filter
-    include Jekyll::Filters::URLFilters
+    # Use Bridgetown's native relative_url filter
+    include Bridgetown::Filters::URLFilters
 
     def render(context)
       @context = context
