@@ -13,8 +13,13 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.order = "random"
 
-  SOURCE_DIR = File.join(File.expand_path("fixtures", __dir__), "src")
+  ROOT_DIR = File.expand_path("fixtures", __dir__)
+  SOURCE_DIR = File.join(ROOT_DIR, "src")
   DEST_DIR   = File.expand_path("dest",     __dir__)
+
+  def root_dir(*files)
+    File.join(ROOT_DIR, *files)
+  end
 
   def source_dir(*files)
     File.join(SOURCE_DIR, *files)

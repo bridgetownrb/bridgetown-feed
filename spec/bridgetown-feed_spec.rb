@@ -7,6 +7,7 @@ describe(BridgetownFeed) do
   let(:config) do
     Bridgetown.configuration(Bridgetown::Utils.deep_merge_hashes({
       "full_rebuild" => true,
+      "root_dir"     => root_dir,
       "source"       => source_dir,
       "destination"  => dest_dir,
       "show_drafts"  => true,
