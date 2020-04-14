@@ -20,6 +20,10 @@ gem 'bridgetown-feed', group: "bridgetown_plugins"
 
 The plugin will automatically generate an Atom feed at `/feed.xml`.
 
+### Meta tags
+
+The plugin exposes a helper tag to expose the appropriate meta tags to support automated discovery of your feed. Simply place `{% feed_meta %}` someplace in your template's `<head>` section, to output the necessary metadata.
+
 ### Optional configuration options
 
 The plugin will automatically use any of the following configuration variables, if they are present in your site's `bridgetown.config.yml` file.
@@ -110,10 +114,6 @@ There are several ways to convey author-specific information. Author information
   ```yml
   author: marina
   ```
-
-### Meta tags
-
-The plugin exposes a helper tag to expose the appropriate meta tags to support automated discovery of your feed. Simply place `{% feed_meta %}` someplace in your template's `<head>` section, to output the necessary metadata.
 
 ### SmartyPants
 
