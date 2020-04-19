@@ -12,22 +12,30 @@ describe(BridgetownFeed) do
       "destination"  => dest_dir,
       "show_drafts"  => true,
       "url"          => "http://example.org",
-      "name"         => "My awesome site",
-      "author"       => {
-        "name" => "Dr. Bridgetown",
-      },
       "collections"  => {
         "my_collection" => { "output" => true },
         "other_things"  => { "output" => false },
       },
     }, overrides))
   end
-  let(:site)     { Bridgetown::Site.new(config) }
+  let(:metadata_overrides) { {} }
+  let(:metadata_defaults) do
+    {
+      "name"         => "My awesome site",
+      "author"       => {
+        "name" => "Dr. Bridgetown",
+      }
+    }
+  end
+  let(:site) { Bridgetown::Site.new(config) }
   let(:contents) { File.read(dest_dir("feed.xml")) }
   let(:context)  { make_context(:site => site) }
   let(:feed_meta) { Liquid::Template.parse("{% feed_meta %}").render!(context, {}) }
   before(:each) do
+    metadata = metadata_defaults.merge(metadata_overrides).to_yaml.sub("---\n", "")
+    File.write(source_dir("_data/site_metadata.yml"), metadata)
     site.process
+    FileUtils.rm(source_dir("_data/site_metadata.yml"))
   end
 
   it "has no layout" do
@@ -179,7 +187,7 @@ describe(BridgetownFeed) do
 
     context "with site.title set" do
       let(:site_title) { "My Site Title" }
-      let(:overrides) { { "title" => site_title } }
+      let(:metadata_overrides) { { "title" => site_title } }
 
       it "uses site.title for the title" do
         expect(feed.title.content).to eql(site_title)
@@ -188,7 +196,7 @@ describe(BridgetownFeed) do
 
     context "with site.name set" do
       let(:site_name) { "My Site Name" }
-      let(:overrides) { { "name" => site_name } }
+      let(:metadata_overrides) { { "name" => site_name } }
 
       it "uses site.name for the title" do
         expect(feed.title.content).to eql(site_name)
@@ -198,7 +206,7 @@ describe(BridgetownFeed) do
     context "with site.name and site.title set" do
       let(:site_title) { "My Site Title" }
       let(:site_name) { "My Site Name" }
-      let(:overrides) { { "title" => site_title, "name" => site_name } }
+      let(:metadata_overrides) { { "title" => site_title, "name" => site_name } }
 
       it "uses site.title for the title, dropping site.name" do
         expect(feed.title.content).to eql(site_title)
@@ -208,7 +216,7 @@ describe(BridgetownFeed) do
 
   context "smartify" do
     let(:site_title) { "Pat's Site" }
-    let(:overrides) { { "title" => site_title } }
+    let(:metadata_overrides) { { "title" => site_title } }
     let(:feed) { RSS::Parser.parse(contents) }
 
     it "processes site title with SmartyPants" do
@@ -278,6 +286,7 @@ describe(BridgetownFeed) do
           "url"         => "http://example.org"
         )
       end
+      let(:metadata_defaults) { {} }
 
       it "does not output blank title" do
         expect(feed_meta).not_to include("title=")

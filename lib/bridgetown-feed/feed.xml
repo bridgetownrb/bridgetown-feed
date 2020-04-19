@@ -9,7 +9,8 @@
   <updated>{{ site.time | date_to_xmlschema }}</updated>
   <id>{{ page.url | absolute_url | xml_escape }}</id>
 
-  {% assign title = site.title | default: site.name %}
+  <!-- {{ site.metadata | jsonify }} -->
+  {% assign title = site.metadata.title | default: site.metadata.name %}
   {% if page.collection != "posts" %}
     {% assign collection = page.collection | capitalize %}
     {% assign title = title | append: " | " | append: collection %}
@@ -23,18 +24,18 @@
     <title type="html">{{ title | smartify | xml_escape }}</title>
   {% endif %}
 
-  {% if site.description %}
-    <subtitle>{{ site.description | xml_escape }}</subtitle>
+  {% if site.metadata.description %}
+    <subtitle>{{ site.metadata.description | xml_escape }}</subtitle>
   {% endif %}
 
-  {% if site.author %}
+  {% if site.metadata.author %}
     <author>
-        <name>{{ site.author.name | default: site.author | xml_escape }}</name>
-      {% if site.author.email %}
-        <email>{{ site.author.email | xml_escape }}</email>
+        <name>{{ site.metadata.author.name | default: site.metadata.author | xml_escape }}</name>
+      {% if site.metadata.author.email %}
+        <email>{{ site.metadata.author.email | xml_escape }}</email>
       {% endif %}
-      {% if site.author.uri %}
-        <uri>{{ site.author.uri | xml_escape }}</uri>
+      {% if site.metadata.author.uri %}
+        <uri>{{ site.metadata.author.uri | xml_escape }}</uri>
       {% endif %}
     </author>
   {% endif %}
@@ -55,7 +56,7 @@
         <content type="html" xml:base="{{ post.url | absolute_url | xml_escape }}">{{ post.content | strip | xml_escape }}</content>
       {% endunless %}
 
-      {% assign post_author = post.author | default: post.authors[0] | default: site.author %}
+      {% assign post_author = post.author | default: post.authors[0] | default: site.metadata.author %}
       {% assign post_author = site.data.authors[post_author] | default: post_author %}
       {% assign post_author_email = post_author.email | default: nil %}
       {% assign post_author_uri = post_author.uri | default: nil %}

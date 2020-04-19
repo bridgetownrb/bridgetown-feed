@@ -26,12 +26,15 @@ The plugin exposes a helper tag to expose the appropriate meta tags to support a
 
 ### Optional configuration options
 
-The plugin will automatically use any of the following configuration variables, if they are present in your site's `bridgetown.config.yml` file.
+The plugin will automatically use any of the following metadata variables if they are present in your site's `_data/site_metadata.yml` file.
 
 * `title` or `name` - The title of the site, e.g., "My awesome site"
 * `description` - A longer description of what your site is about, e.g., "Where I blog about Bridgetown and other awesome things"
-* `url` - The URL to your site, e.g., `https://example.com`. If none is provided, the plugin will try to use `site.github.url`.
 * `author` - Global author information (see below)
+
+In addition it looks for these `bridgetown.config.yml` settings:
+
+* `url` - The URL to your site, e.g., `https://example.com`.
 
 ### Already have a feed path?
 
@@ -59,7 +62,7 @@ Additionally, the plugin will use the following values, if present in a post's Y
 
 * `image` - URL of an image that is representative of the post (can also be passed as `image.path`)
 
-* `author` - The author of the post, e.g., "Dr. Bridgetown". If none is given, feed readers will look to the feed author as defined in `bridgetown.config.yml`. Like the feed author, this can also be an object or a reference to an author in `_data/authors.yml` (see below).
+* `author` - The author of the post, e.g., "Dr. Bridgetown". If none is given, feed readers will look to the feed author as defined in `_data/site_metadata.yml`. Like the feed author, this can also be an object or a reference to an author in `_data/authors.yml` (see below).
 
 ### Author information
 
@@ -74,7 +77,7 @@ There are several ways to convey author-specific information. Author information
     twitter: MarinaDiamandis
   ```
 
-2. An `author` object, in the site's `bridgetown.config.yml`, e.g.:
+2. An `author` object, in the site's `_data/site_metadata.yml`, e.g.:
 
   ```yml
   author:
@@ -109,7 +112,7 @@ There are several ways to convey author-specific information. Author information
   author: marina
   ```
 
-5. An author in the site's `bridgetown.config.yml`, e.g.:
+5. An author in the site's `_data/site_metadata.yml`, e.g.:
 
   ```yml
   author: marina

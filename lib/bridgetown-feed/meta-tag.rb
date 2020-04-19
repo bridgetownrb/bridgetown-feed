@@ -17,6 +17,10 @@ module BridgetownFeed
       @config ||= @context.registers[:site].config
     end
 
+    def metadata
+      @metadata ||= @context.registers[:site].data["site_metadata"]
+    end
+
     def attributes
       {
         :type  => "application/atom+xml",
@@ -31,7 +35,7 @@ module BridgetownFeed
     end
 
     def title
-      config["title"] || config["name"]
+      metadata["title"] || metadata["name"]
     end
   end
 end
