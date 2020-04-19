@@ -9,7 +9,6 @@
   <updated>{{ site.time | date_to_xmlschema }}</updated>
   <id>{{ page.url | absolute_url | xml_escape }}</id>
 
-  <!-- {{ site.metadata | jsonify }} -->
   {% assign title = site.metadata.title | default: site.metadata.name %}
   {% if page.collection != "posts" %}
     {% assign collection = page.collection | capitalize %}

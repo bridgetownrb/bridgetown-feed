@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.1.0 / 2020-04-19
+## 1.1.1 / 2020-04-19
 
 Update to use `_data/site_metadata.yml` in line with the rest of the ecosystem.
 
