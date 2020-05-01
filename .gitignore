@@ -19,3 +19,4 @@ spec/dest
 .bundle
 .bridgetown-metadata
 .bridgetown-cache
+.ruby-version

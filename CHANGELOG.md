@@ -1,4 +1,6 @@
-# Change Log
+# master
+
+Update to require a minimum Ruby version of 2.5.
 
 ## 1.1.1 / 2020-04-19
 

@@ -194,6 +194,10 @@ feed:
 The same flag can be used directly in post file. It will be disable `<content>` tag for selected post.
 Settings in post file has higher priority than in config file.
 
+## Testing
+
+* Run `bundle exec rspec` to run the test suite
+* Or run `script/cibuild` to validate with Rubocop and test with rspec together
 
 ## Contributing
 
