@@ -1,5 +1,7 @@
 # master
 
+# 1.1.2 / 2020-05-01
+
 Update to require a minimum Ruby version of 2.5.
 
 ## 1.1.1 / 2020-04-19
