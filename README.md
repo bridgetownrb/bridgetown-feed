@@ -120,7 +120,7 @@ There are several ways to convey author-specific information. Author information
 
 ### SmartyPants
 
-The plugin uses [Bridgetown's `smartify` filter](https://bridgetownrb.com/docs/templates/) for processing the site title and post titles. This will translate plain ASCII punctuation into "smart" typographic punctuation. This will not render or strip any Markdown you may be using in a title.
+The plugin uses [Bridgetown's `smartify` filter](https://www.bridgetownrb.com/docs/liquid/filters) for processing the site title and post titles. This will translate plain ASCII punctuation into "smart" typographic punctuation. This will not render or strip any Markdown you may be using in a title.
 
 Bridgetown's `smartify` filter uses [kramdown](https://kramdown.gettalong.org/options.html) as a processor.  Accordingly, if you do not want "smart" typographic punctuation, disabling them in kramdown in your `bridgetown.config.yml` will disable them in your feed. For example:
 
