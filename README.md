@@ -1,6 +1,6 @@
 # Bridgetown Feed plugin
 
-A Bridgetown plugin to generate an Atom (RSS-like) feed of your Bridgetown posts
+A Bridgetown plugin to generate an Atom (RSS-like) feed of your Bridgetown posts and other collection documents.
 
 ## Installation
 
@@ -16,13 +16,17 @@ Or simply add this line to your Gemfile:
 gem 'bridgetown-feed', group: "bridgetown_plugins"
 ```
 
+The plugin exposes a helper tag to expose the appropriate meta tags to support automated discovery of your feed.
+
+Simply place `{% feed_meta %}` someplace in your template's `<head>` section to output the necessary metadata.
+
+### Atom is nice and all, but what about JSON Feed?
+
+[It's on our roadmap.](https://github.com/bridgetownrb/bridgetown-feed/issues/1) 🙂
+
 ## Usage
 
 The plugin will automatically generate an Atom feed at `/feed.xml`.
-
-### Meta tags
-
-The plugin exposes a helper tag to expose the appropriate meta tags to support automated discovery of your feed. Simply place `{% feed_meta %}` someplace in your template's `<head>` section, to output the necessary metadata.
 
 ### Optional configuration options
 
@@ -120,7 +124,7 @@ There are several ways to convey author-specific information. Author information
 
 ### SmartyPants
 
-The plugin uses [Bridgetown's `smartify` filter](https://bridgetownrb.com/docs/templates/) for processing the site title and post titles. This will translate plain ASCII punctuation into "smart" typographic punctuation. This will not render or strip any Markdown you may be using in a title.
+The plugin uses [Bridgetown's `smartify` filter](https://www.bridgetownrb.com/docs/liquid/filters) for processing the site title and post titles. This will translate plain ASCII punctuation into "smart" typographic punctuation. This will not render or strip any Markdown you may be using in a title.
 
 Bridgetown's `smartify` filter uses [kramdown](https://kramdown.gettalong.org/options.html) as a processor.  Accordingly, if you do not want "smart" typographic punctuation, disabling them in kramdown in your `bridgetown.config.yml` will disable them in your feed. For example:
 
@@ -133,10 +137,6 @@ Bridgetown's `smartify` filter uses [kramdown](https://kramdown.gettalong.org/op
 ### Custom styling
 
 Want to style what your feed looks like in the browser? Simply add an XSLT at `/feed.xslt.xml` and Bridgetown Feed will link to the stylesheet.
-
-## Why Atom, and not RSS?
-
-Great question. In short, Atom is a better format. Think of it like RSS 3.0. For more information, see [this discussion on why we chose Atom over RSS 2.0](https://github.com/bridgetown/bridgetown-rss-feed/issues/2).
 
 ## Categories
 
