@@ -10,10 +10,10 @@ module BridgetownFeed
       collections.each do |name, meta|
         Bridgetown.logger.info "Bridgetown Feed:", "Generating feed for #{name}"
         (meta["categories"] + [nil]).each do |category|
-          path = feed_path(:collection => name, :category => category)
+          path = feed_path(collection: name, category: category)
           next if file_exists?(path)
 
-          @site.pages << make_page(path, :collection => name, :category => category)
+          @site.pages << make_page(path, collection: name, category: category)
         end
       end
     end

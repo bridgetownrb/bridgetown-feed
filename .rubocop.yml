@@ -1,10 +1,10 @@
-require: rubocop-jekyll
+require: rubocop-bridgetown
 
 inherit_gem:
-  rubocop-jekyll: .rubocop.yml
+  rubocop-bridgetown: .rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
   Include:
     - lib/**/*.rb
 
@@ -22,6 +22,3 @@ AllCops:
     - script/**/*
     - vendor/**/*
 
-Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - lib/bridgetown-feed/page-without-a-file.rb
