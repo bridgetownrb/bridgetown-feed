@@ -88,7 +88,7 @@ module BridgetownFeed
       PageWithoutAFile.new(@site, __dir__, "", file_path).tap do |file|
         file.content = feed_template
         file.data.merge!(
-          "layout"          => nil,
+          "layout"          => "none",
           "template_engine" => "liquid",
           "sitemap"         => false,
           "xsl"             => file_exists?("feed.xslt.xml"),
