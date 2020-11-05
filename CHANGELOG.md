@@ -1,6 +1,8 @@
 # master
 
-Switch to using Rubocop Bridgetown gem.
+## 1.1.3 / 2020-11-05
+
+* Add `template_engine: liquid` to the feed XML so it plays well with Bridgetown 0.18+
 
 ## 1.1.2 / 2020-05-01
 
