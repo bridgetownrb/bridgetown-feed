@@ -41,9 +41,9 @@
 
   {% assign feed_collection = collections[page.collection] %}
   {% if site.uses_resource %}
-    {% find posts where feed_collection, draft != true %}
+    {% find posts where feed_collection.resources, draft != true %}
   {% else %}
-    {% assign posts = feed_collection | where_exp: "post", "post.draft != true" | sort: "date" | reverse %}
+    {% assign posts = feed_collection.docs | where_exp: "post", "post.draft != true" | sort: "date" | reverse %}
   {% endif %}
   {% if page.category %}
     {% assign posts = posts | where: "category",page.category %}
