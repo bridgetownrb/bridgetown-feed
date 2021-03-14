@@ -39,10 +39,11 @@
     </author>
   {% endif %}
 
+  {% assign feed_collection = collections[page.collection] %}
   {% if site.uses_resource %}
-    {% find posts where collections[page.collection], draft != true %}
+    {% find posts where feed_collection, draft != true %}
   {% else %}
-    {% assign posts = site[page.collection] | where_exp: "post", "post.draft != true" | sort: "date" | reverse %}
+    {% assign posts = feed_collection | where_exp: "post", "post.draft != true" | sort: "date" | reverse %}
   {% endif %}
   {% if page.category %}
     {% assign posts = posts | where: "category",page.category %}
