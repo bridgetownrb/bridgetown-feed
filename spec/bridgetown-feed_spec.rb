@@ -119,6 +119,13 @@ describe(BridgetownFeed) do
     end
   end
 
+  context "erb helper" do
+    it "outputs link tag" do
+      page = site.pages.find { |item| item.data.title == "I'm a page" }
+      expect(page.output).to include(%(<link type="application/atom+xml" rel="alternate" href="http://example.org/feed.xml" title="My awesome site" />))
+    end
+  end
+
   context "parsing" do
     let(:feed) { RSS::Parser.parse(contents) }
 

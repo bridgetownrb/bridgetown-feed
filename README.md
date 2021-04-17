@@ -18,7 +18,17 @@ gem 'bridgetown-feed', group: "bridgetown_plugins"
 
 The plugin exposes a helper tag to expose the appropriate meta tags to support automated discovery of your feed.
 
-Simply place `{% feed_meta %}` someplace in your template's `<head>` section to output the necessary metadata.
+Simply place `feed_meta` someplace in your layout's `<head>` section to output the necessary metadata.
+
+```liquid
+<!-- layout.liquid -->
+{% feed_meta %}
+```
+
+```erb
+<!-- layout.erb -->
+<%= feed_meta %>
+```
 
 ### Atom is nice and all, but what about JSON Feed?
 
