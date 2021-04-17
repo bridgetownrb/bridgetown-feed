@@ -85,7 +85,7 @@ module BridgetownFeed
     # Generates contents for a file
 
     def make_page(file_path, collection: "posts", category: nil)
-      PageWithoutAFile.new(@site, __dir__, "", file_path).tap do |file|
+      Bridgetown::GeneratedPage.new(@site, __dir__, "", file_path, from_plugin: true).tap do |file|
         file.content = feed_template
         file.data.merge!(
           "layout"          => "none",

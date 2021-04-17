@@ -1,5 +1,9 @@
 # master
 
+## 2.0.0 / 2021-04-17
+
+* New release with helper to support Ruby templates like ERB
+
 ## 1.1.3 / 2020-11-05
 
 * Add `template_engine: liquid` to the feed XML so it plays well with Bridgetown 0.18+
