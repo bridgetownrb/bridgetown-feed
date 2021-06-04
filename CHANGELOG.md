@@ -1,4 +1,8 @@
-# master
+# Changelog
+
+## 2.0.1 / 2021-06-04
+
+* Fix bug where resources' relative URLs weren't included properly
 
 ## 2.0.0 / 2021-04-17
 
