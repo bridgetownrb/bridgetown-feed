@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Switch from `site.pages` to `site.generated_pages` due to Bridgetown 1.0 API change
+
 ## 2.0.1 / 2021-06-04
 
 * Fix bug where resources' relative URLs weren't included properly

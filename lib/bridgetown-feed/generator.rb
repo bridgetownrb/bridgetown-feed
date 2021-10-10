@@ -13,7 +13,7 @@ module BridgetownFeed
           path = feed_path(collection: name, category: category)
           next if file_exists?(path)
 
-          @site.pages << make_page(path, collection: name, category: category)
+          @site.generated_pages << make_page(path, collection: name, category: category)
         end
       end
     end

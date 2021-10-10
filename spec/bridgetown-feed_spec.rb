@@ -121,7 +121,7 @@ describe(BridgetownFeed) do
 
   context "erb helper" do
     it "outputs link tag" do
-      page = site.pages.find { |item| item.data.title == "I'm a page" }
+      page = site.collections.pages.resources.find { |item| item.data.title == "I'm a page" }
       expect(page.output).to include(%(<link type="application/atom+xml" rel="alternate" href="http://example.org/feed.xml" title="My awesome site" />))
     end
   end
