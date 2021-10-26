@@ -52,11 +52,11 @@ describe(BridgetownFeed) do
   end
 
   it "puts all the posts in the feed.xml file" do
-    expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-    expect(contents).to match "http://example.org/news/2014/03/02/march-the-second.html"
-    expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second.html"
-    expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle.html"
-    expect(contents).to_not match "http://example.org/2016/02/09/a-draft.html"
+    expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+    expect(contents).to match "http://example.org/news/2014/03/02/march-the-second/"
+    expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second/"
+    expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle/"
+    expect(contents).to_not match "http://example.org/2016/02/09/a-draft/"
   end
 
   it "does not include assets or any static files that aren't .html" do
@@ -153,7 +153,7 @@ describe(BridgetownFeed) do
     it "includes item contents" do
       post = feed.items.last
       expect(post.title.content).to eql("Dec The Second")
-      expect(post.link.href).to eql("http://example.org/news/2013/12/12/dec-the-second.html")
+      expect(post.link.href).to eql("http://example.org/news/2013/12/12/dec-the-second/")
       expect(post.published.content).to eql(Time.parse("2013-12-12"))
     end
 
@@ -264,13 +264,13 @@ describe(BridgetownFeed) do
 
   context "with a baseurl" do
     let(:overrides) do
-      { "baseurl" => "/bass" }
+      { "base_path" => "/bass" }
     end
 
     it "correctly adds the baseurl to the posts" do
-      expect(contents).to match "http://example.org/bass/updates/bridgetown/2014/03/04/march-the-fourth.html"
-      expect(contents).to match "http://example.org/bass/news/2014/03/02/march-the-second.html"
-      expect(contents).to match "http://example.org/bass/news/2013/12/12/dec-the-second.html"
+      expect(contents).to match "http://example.org/bass/updates/bridgetown/2014/03/04/march-the-fourth/"
+      expect(contents).to match "http://example.org/bass/news/2014/03/02/march-the-second/"
+      expect(contents).to match "http://example.org/bass/news/2013/12/12/dec-the-second/"
     end
 
     it "renders the feed meta" do
@@ -374,19 +374,19 @@ describe(BridgetownFeed) do
       let(:news_feed) { File.read(dest_dir("feed/news.xml")) }
 
       it "outputs the primary feed" do
-        expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-        expect(contents).to match "http://example.org/news/2014/03/02/march-the-second.html"
-        expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second.html"
-        expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle.html"
-        expect(contents).to_not match "http://example.org/2016/02/09/a-draft.html"
+        expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+        expect(contents).to match "http://example.org/news/2014/03/02/march-the-second/"
+        expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second/"
+        expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle/"
+        expect(contents).to_not match "http://example.org/2016/02/09/a-draft/"
       end
 
       it "outputs the category feed" do
         expect(news_feed).to match '<title type="html">My awesome site | News</title>'
-        expect(news_feed).to match "http://example.org/news/2014/03/02/march-the-second.html"
-        expect(news_feed).to match "http://example.org/news/2013/12/12/dec-the-second.html"
-        expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-        expect(news_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle.html"
+        expect(news_feed).to match "http://example.org/news/2014/03/02/march-the-second/"
+        expect(news_feed).to match "http://example.org/news/2013/12/12/dec-the-second/"
+        expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+        expect(news_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle/"
       end
     end
 
@@ -405,19 +405,19 @@ describe(BridgetownFeed) do
       let(:news_feed) { File.read(dest_dir("feed/news.xml")) }
 
       it "outputs the primary feed" do
-        expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-        expect(contents).to match "http://example.org/news/2014/03/02/march-the-second.html"
-        expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second.html"
-        expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle.html"
-        expect(contents).to_not match "http://example.org/2016/02/09/a-draft.html"
+        expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+        expect(contents).to match "http://example.org/news/2014/03/02/march-the-second/"
+        expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second/"
+        expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle/"
+        expect(contents).to_not match "http://example.org/2016/02/09/a-draft/"
       end
 
       it "outputs the category feed" do
         expect(news_feed).to match '<title type="html">My awesome site | News</title>'
-        expect(news_feed).to match "http://example.org/news/2014/03/02/march-the-second.html"
-        expect(news_feed).to match "http://example.org/news/2013/12/12/dec-the-second.html"
-        expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-        expect(news_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle.html"
+        expect(news_feed).to match "http://example.org/news/2014/03/02/march-the-second/"
+        expect(news_feed).to match "http://example.org/news/2013/12/12/dec-the-second/"
+        expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+        expect(news_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle/"
       end
     end
   end
@@ -439,10 +439,10 @@ describe(BridgetownFeed) do
 
       it "outputs the collection feed" do
         expect(collection_feed).to match '<title type="html">My awesome site | Collection</title>'
-        expect(collection_feed).to match "http://example.org/collection/2018-01-01-collection-doc.html"
-        expect(collection_feed).to match "http://example.org/collection/2018-01-02-collection-category-doc.html"
-        expect(collection_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-        expect(collection_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle.html"
+        expect(collection_feed).to match "http://example.org/collection/collection-doc/"
+        expect(collection_feed).to match "http://example.org/collection/collection-category-doc/"
+        expect(collection_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+        expect(collection_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle/"
       end
     end
 
@@ -467,10 +467,10 @@ describe(BridgetownFeed) do
 
       it "outputs the collection category feed" do
         expect(news_feed).to match '<title type="html">My awesome site | Collection | News</title>'
-        expect(news_feed).to match "http://example.org/collection/2018-01-02-collection-category-doc.html"
-        expect(news_feed).to_not match "http://example.org/collection/2018-01-01-collection-doc.html"
-        expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth.html"
-        expect(news_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle.html"
+        expect(news_feed).to match "http://example.org/collection/collection-category-doc/"
+        expect(news_feed).to_not match "http://example.org/collection/collection-doc/"
+        expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
+        expect(news_feed).to_not match "http://example.org/2015/08/08/stuck-in-the-middle/"
       end
     end
 

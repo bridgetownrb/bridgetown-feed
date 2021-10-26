@@ -89,6 +89,7 @@ module BridgetownFeed
         file.content = feed_template
         file.data.merge!(
           "layout"          => "none",
+          "permalink"       => file_path,
           "template_engine" => "liquid",
           "sitemap"         => false,
           "xsl"             => file_exists?("feed.xslt.xml"),

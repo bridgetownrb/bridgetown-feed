@@ -40,24 +40,20 @@
   {% endif %}
 
   {% assign feed_collection = collections[page.collection] %}
-  {% if site.uses_resource %}
-    {% find posts where feed_collection.resources, draft != true %}
-  {% else %}
-    {% assign posts = feed_collection.docs | where_exp: "post", "post.draft != true" | sort: "date" | reverse %}
-  {% endif %}
+  {% find posts where feed_collection.resources, draft != true %}
   {% if page.category %}
     {% assign posts = posts | where: "category",page.category %}
   {% endif %}
   {% for post in posts limit: 10 %}
     <entry{% if post.lang %}{{" "}}xml:lang="{{ post.lang }}"{% endif %}>
       <title type="html">{{ post.title | smartify | strip_html | normalize_whitespace | xml_escape }}</title>
-      <link href="{{ post.relative_url | default: post.url | absolute_url }}" rel="alternate" type="text/html" title="{{ post.title | xml_escape }}" />
+      <link href="{{ post.absolute_url | default: post.url | absolute_url }}" rel="alternate" type="text/html" title="{{ post.title | xml_escape }}" />
       <published>{{ post.date | date_to_xmlschema }}</published>
       <updated>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</updated>
       <id>{{ post.id | absolute_url | xml_escape }}</id>
       {% assign excerpt_only = post.feed.excerpt_only | default: site.feed.excerpt_only %}
       {% unless excerpt_only %}
-        <content type="html" xml:base="{{ post.relative_url | default: post.url | absolute_url | xml_escape }}">{{ post.content | strip | xml_escape }}</content>
+        <content type="html" xml:base="{{ post.absolute_url | default: post.url | absolute_url | xml_escape }}">{{ post.content | strip | xml_escape }}</content>
       {% endunless %}
 
       {% assign post_author = post.author | default: post.authors[0] | default: site.metadata.author %}
