@@ -52,7 +52,7 @@ module BridgetownFeed
     def collections
       return @collections if defined?(@collections)
 
-      @collections = if config["collections"].is_a?(Array)
+      @collections = if config["collections"].is_a?(Array) # rubocop:disable Style/CaseLikeIf
                        config["collections"].map { |c| [c, {}] }.to_h
                      elsif config["collections"].is_a?(Hash)
                        config["collections"]
