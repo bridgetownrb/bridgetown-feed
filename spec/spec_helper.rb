@@ -4,6 +4,9 @@ require "bridgetown"
 require "typhoeus" unless Gem.win_platform?
 require "nokogiri"
 require "rss"
+
+Bridgetown.begin!
+
 require File.expand_path("../lib/bridgetown-feed", __dir__)
 
 Bridgetown.logger.log_level = :error

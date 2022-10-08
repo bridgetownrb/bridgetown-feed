@@ -15,11 +15,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r!^spec/!)
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 2.5.0"
+  spec.required_ruby_version = ">= 2.7.0"
 
-  spec.add_dependency "bridgetown", ">= 1.0.0.alpha5", "< 2.0"
+  spec.add_dependency "bridgetown", ">= 1.2.0.beta2", "< 2.0"
 
   spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rss"
   spec.add_development_dependency "nokogiri", "~> 1.6"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"

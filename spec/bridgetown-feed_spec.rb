@@ -16,7 +16,9 @@ describe(BridgetownFeed) do
         "my_collection" => { "output" => true },
         "other_things"  => { "output" => false },
       },
-    }, overrides))
+    }, overrides)).tap do |conf|
+      conf.run_initializers! context: :static
+    end
   end
   let(:metadata_overrides) { {} }
   let(:metadata_defaults) do

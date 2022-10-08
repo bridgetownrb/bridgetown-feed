@@ -45,5 +45,3 @@ module BridgetownFeed
     end
   end
 end
-
-BridgetownFeed::Builder.register
