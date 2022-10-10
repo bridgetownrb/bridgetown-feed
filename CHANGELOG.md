@@ -4,6 +4,10 @@
 
 ...
 
+## 3.0.0 / 2022-10-08
+
+* Upgrade to initializers system in Bridgetown 1.2
+
 ## 2.1.0 / 2021-10-26
 
 * Update test suite and ensure generated pages have the right permalink
