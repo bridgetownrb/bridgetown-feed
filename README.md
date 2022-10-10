@@ -2,19 +2,29 @@
 
 A Bridgetown plugin to generate an Atom (RSS-like) feed of your Bridgetown posts and other collection documents.
 
-## Installation
+## Installation for Bridgetown 1.2+
 
 Run this command to add this plugin to your site's Gemfile:
 
 ```shell
-$ bundle add bridgetown-feed -g bridgetown_plugins
+$ bundle add bridgetown-feed
 ```
 
 Or simply add this line to your Gemfile:
 
 ```ruby
-gem 'bridgetown-feed', group: "bridgetown_plugins"
+gem 'bridgetown-feed'
 ```
+
+And then add the initializer to your configuration in `config/initializers.rb`:
+
+```ruby
+init :"bridgetown-feed"
+```
+
+(For Bridgetown 1.1 or earlier, [read these instructions](https://github.com/bridgetownrb/bridgetown-feed/tree/v2.1.0).)
+
+## Usage
 
 The plugin exposes a helper tag to expose the appropriate meta tags to support automated discovery of your feed.
 
@@ -30,13 +40,11 @@ Simply place `feed_meta` someplace in your layout's `<head>` section to output t
 <%= feed_meta %>
 ```
 
+The plugin will automatically generate an Atom feed at `/feed.xml`.
+
 ### Atom is nice and all, but what about JSON Feed?
 
 [It's on our roadmap.](https://github.com/bridgetownrb/bridgetown-feed/issues/1) 🙂
-
-## Usage
-
-The plugin will automatically generate an Atom feed at `/feed.xml`.
 
 ### Optional configuration options
 
