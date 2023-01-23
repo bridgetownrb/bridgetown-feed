@@ -42,10 +42,6 @@ Simply place `feed_meta` someplace in your layout's `<head>` section to output t
 
 The plugin will automatically generate an Atom feed at `/feed.xml`.
 
-### Atom is nice and all, but what about JSON Feed?
-
-[It's on our roadmap.](https://github.com/bridgetownrb/bridgetown-feed/issues/1) 🙂
-
 ### Optional configuration options
 
 The plugin will automatically use any of the following metadata variables if they are present in your site's `_data/site_metadata.yml` file.
