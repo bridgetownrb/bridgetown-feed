@@ -92,35 +92,35 @@ There are several ways to convey author-specific information. Author information
 
   ```yml
   author:
-    twitter: MarinaDiamandis
+    name: Issac Asimov
   ```
 
 2. An `author` object, in the site's `_data/site_metadata.yml`, e.g.:
 
   ```yml
   author:
-    twitter: MarinaDiamandis
+    name: Issac Asimov
   ```
 
 3. `site.data.authors[author]`, if an author is specified in the document's front matter, and a corresponding key exists in `site.data.authors`. E.g., you have the following in the document's front matter:
 
   ```yml
-  author: marina
+  author: iasimov
   ```
 
   And you have the following in `_data/authors.yml`:
 
   ```yml
-  marina:
-    picture: /img/marina.png
-    twitter: MarinaDiamandis
+  iasimov:
+    picture: /images/marina.jpg
+    name: Issac Asimov
 
-  jared:
-    picture: /img/jared.png
-    twitter: jaredcwhite
+  jwhite:
+    picture: /images/jared.jpg
+    name: Jared White
   ```
 
-  In the above example, the author `marina`'s Twitter handle will be resolved to `@MarinaDiamandis`. This allows you to centralize author information in a single `_data/authors` file for site with many authors that require more than just the author's username.
+  In the above example, the author `iasimov`'s name will be resolved to `Issac Asimov`. This allows you to centralize author information in a single `_data/authors.yml` file for site with many authors that require more than just the author's username.
 
   *Pro-tip: If `authors` is present in the document's front matter as an array (and `author` is not), the plugin will use the first author listed.*
 
@@ -135,6 +135,8 @@ There are several ways to convey author-specific information. Author information
   ```yml
   author: marina
   ```
+
+The author keys the plugin can read are `name`, `email`, and `uri` (for linking to an author's website).
 
 ### SmartyPants
 
