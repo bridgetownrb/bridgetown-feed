@@ -19,7 +19,9 @@ gem 'bridgetown-feed'
 And then add the initializer to your configuration in `config/initializers.rb`:
 
 ```ruby
-init :"bridgetown-feed"
+Bridgetown.configure do
+  init :"bridgetown-feed"
+end
 ```
 
 (For Bridgetown 1.1 or earlier, [read these instructions](https://github.com/bridgetownrb/bridgetown-feed/tree/v2.1.0).)
