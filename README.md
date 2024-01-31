@@ -210,6 +210,26 @@ feed:
 The same flag can be used directly in post file. It will be disable `<content>` tag for selected post.
 Settings in post file has higher priority than in config file.
 
+## Post Limit
+
+Optional flag `post_limit` allows you to set a limit to the number of posts shown in the feed. Default value is `10`.
+
+When it is set in `bridgetown.config.yml`, all collections will be limited:
+
+```yml
+feed:
+  post_limit: 25
+```
+
+The same flag can also be set on a collection:
+
+```yml
+feed:
+  collections:
+    changes:
+      post_limit: 25
+```
+
 ## Testing
 
 * Run `bundle exec rspec` to run the test suite
