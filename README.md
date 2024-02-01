@@ -20,6 +20,8 @@ And then add the initializer to your configuration in `config/initializers.rb`:
 
 ```ruby
 Bridgetown.configure do
+  # existing config here
+
   init :"bridgetown-feed"
 end
 ```
