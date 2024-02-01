@@ -4,6 +4,10 @@
 
 ...
 
+## 3.1.0 / 2024-02-01
+
+* Add an option to set the post_limit (@jbennett)
+
 ## 3.0.0 / 2022-10-08
 
 * Upgrade to initializers system in Bridgetown 1.2
