@@ -540,4 +540,42 @@ describe(BridgetownFeed) do
       end
     end
   end
+
+  context "post_limit override" do
+    it "limit the number of posts by default" do
+      expect(contents.scan("<entry").size).to eq 10
+    end
+
+    context "when collection.post_limit is set" do
+      let(:overrides) do
+        {
+          "feed" => {
+            "collections" => {
+              "posts" => {
+                "post_limit": "1"
+              },
+            },
+          },
+        }
+      end
+
+      it "should limit the number of posts" do
+        expect(contents.scan("<entry").size).to eq 1
+      end
+    end
+
+    context "when site.post_limit is set" do
+      let(:overrides) do
+        {
+          "feed" => {
+            "post_limit": 1
+          },
+        }
+      end
+
+      it "should limit the number of posts" do
+        expect(contents.scan("<entry").size).to eq 1
+      end
+    end
+  end
 end
