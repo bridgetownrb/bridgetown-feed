@@ -48,16 +48,11 @@ describe(BridgetownFeed) do
     expect(Pathname.new(dest_dir("feed.xml"))).to exist
   end
 
-  it "doesn't have multiple new lines or trailing whitespace" do
-    expect(contents).to_not match %r!\s+\n!
-    expect(contents).to_not match %r!\n{2,}!
-  end
-
   it "puts all the posts in the feed.xml file" do
     expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
     expect(contents).to match "http://example.org/news/2014/03/02/march-the-second/"
     expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second/"
-    expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle/"
+    expect(contents).to match "http://example.org/2024/02/01/titled/"
     expect(contents).to_not match "http://example.org/2016/02/09/a-draft/"
   end
 
@@ -71,31 +66,35 @@ describe(BridgetownFeed) do
   end
 
   it "supports post author name as an object" do
-    expect(contents).to match %r!<author>\s*<name>Ben</name>\s*<email>ben@example\.com</email>\s*<uri>http://ben\.balter\.com</uri>\s*</author>!
+    expect(contents).to match %r!<author>ben@example\.com \(Ben\)</author>!
   end
 
-  it "supports post author name as a string" do
-    expect(contents).to match %r!<author>\s*<name>Pat</name>\s*</author>!
+  it "does not support post author name as a string" do
+    expect(contents).not_to match %r!<author>Pat</author>!
   end
 
   it "does not output author tag no author is provided" do
-    expect(contents).not_to match %r!<author>\s*<name></name>\s*</author>!
+    expect(contents).not_to match %r!<author></author>!
   end
 
   it "does use author reference with data from _data/authors.yml" do
-    expect(contents).to match %r!<author>\s*<name>Garth</name>\s*<email>example@mail\.com</email>\s*<uri>http://garthdb\.com</uri>\s*</author>!
+    expect(contents).to match %r!<author>example@mail\.com \(Garth\)</author>!
   end
 
   it "converts markdown posts to HTML" do
     expect(contents).to match %r!&lt;p&gt;March the second\!&lt;/p&gt;!
   end
 
-  it "uses last_modified_at where available" do
-    expect(contents).to match %r!<updated>2015-05-12T13:27:59\+00:00</updated>!
+  it "uses specific date" do
+    expect(contents).to match %r!<pubDate>Tue, 12 May 2015 13:27:59 \+0000</pubDate>!
   end
 
   it "replaces newlines in posts to spaces" do
-    expect(contents).to match '<title type="html">The plugin will properly strip newlines.</title>'
+    expect(contents).to match '<title>The plugin will properly strip newlines.</title>'
+  end
+
+  it "replaces strips HTML from titles" do
+    expect(contents).to match '<title>I will be plain text!</title>'
   end
 
   it "renders Liquid inside posts" do
@@ -124,7 +123,7 @@ describe(BridgetownFeed) do
   context "erb helper" do
     it "outputs link tag" do
       page = site.collections.pages.resources.find { |item| item.data.title == "I'm a page" }
-      expect(page.output).to include(%(<link type="application/atom+xml" rel="alternate" href="http://example.org/feed.xml" title="My awesome site" />))
+      expect(page.output).to include(%(<link type="application/rss+xml" rel="alternate" href="http://example.org/feed.xml" title="My awesome site" />))
     end
   end
 
@@ -132,20 +131,15 @@ describe(BridgetownFeed) do
     let(:feed) { RSS::Parser.parse(contents) }
 
     it "outputs an RSS feed" do
-      expect(feed.feed_type).to eql("atom")
-      expect(feed.feed_version).to eql("1.0")
+      expect(feed.feed_type).to eql("rss")
+      expect(feed.feed_version).to eql("2.0")
       expect(feed.encoding).to eql("UTF-8")
       expect(feed.lang).to be_nil
       expect(feed.valid?).to eql(true)
     end
 
-    it "outputs the link" do
-      expect(feed.link.href).to eql("http://example.org/feed.xml")
-    end
-
     it "outputs the generator" do
-      expect(feed.generator.content).to eql("Bridgetown")
-      expect(feed.generator.version).to eql(Bridgetown::VERSION)
+      expect(feed.channel.generator).to eql("Bridgetown v#{Bridgetown::VERSION}")
     end
 
     it "includes the items" do
@@ -154,27 +148,16 @@ describe(BridgetownFeed) do
 
     it "includes item contents" do
       post = feed.items.last
-      expect(post.title.content).to eql("Dec The Second")
       expect(post.link.href).to eql("http://example.org/news/2013/12/12/dec-the-second/")
-      expect(post.published.content).to eql(Time.parse("2013-12-12"))
-    end
-
-    it "includes the item's excerpt" do
-      post = feed.items.last
-      expect(post.summary.content).to eql("Foo")
-    end
-
-    it "doesn't include the item's excerpt if blank" do
-      post = feed.items.first
-      expect(post.summary).to be_nil
+      expect(post.updated.content).to eql(Time.parse("2013-12-12"))
     end
 
     context "with site.lang set" do
       lang = "en_US"
       let(:overrides) { { "lang" => lang } }
       it "outputs a valid feed" do
-        expect(feed.feed_type).to eql("atom")
-        expect(feed.feed_version).to eql("1.0")
+        expect(feed.feed_type).to eql("rss")
+        expect(feed.feed_version).to eql("2.0")
         expect(feed.encoding).to eql("UTF-8")
         expect(feed.valid?).to eql(true)
       end
@@ -199,7 +182,7 @@ describe(BridgetownFeed) do
       let(:metadata_overrides) { { "title" => site_title } }
 
       it "uses site.title for the title" do
-        expect(feed.title.content).to eql(site_title)
+        expect(feed.channel.title).to eql(site_title)
       end
     end
 
@@ -208,7 +191,7 @@ describe(BridgetownFeed) do
       let(:metadata_overrides) { { "name" => site_name } }
 
       it "uses site.name for the title" do
-        expect(feed.title.content).to eql(site_name)
+        expect(feed.channel.title).to eql(site_name)
       end
     end
 
@@ -218,7 +201,7 @@ describe(BridgetownFeed) do
       let(:metadata_overrides) { { "title" => site_title, "name" => site_name } }
 
       it "uses site.title for the title, dropping site.name" do
-        expect(feed.title.content).to eql(site_title)
+        expect(feed.channel.title).to eql(site_title)
       end
     end
   end
@@ -229,38 +212,7 @@ describe(BridgetownFeed) do
     let(:feed) { RSS::Parser.parse(contents) }
 
     it "processes site title with SmartyPants" do
-      expect(feed.title.content).to eql("Pat’s Site")
-    end
-  end
-
-  context "validation" do
-    it "validates" do
-      skip "Typhoeus couldn't find the 'libcurl' module on Windows" if Gem.win_platform?
-      # See https://validator.w3.org/docs/api.html
-      url = "https://validator.w3.org/feed/check.cgi?output=soap12"
-      response = Typhoeus.post(url, :body => { :rawdata => contents }, :accept_encoding => "gzip")
-      pending "Something went wrong with the W3 validator" unless response.success?
-      result = Nokogiri::XML(response.body)
-      result.remove_namespaces!
-
-      result.css("warning").each do |warning|
-        # Quiet a warning that results from us passing the feed as a string
-        next if warning.css("text").text =~ %r!Self reference doesn't match document location!
-
-        # Quiet expected warning that results from blank summary test case
-        next if warning.css("text").text =~ %r!(content|summary) should not be blank!
-
-        # Quiet expected warning about multiple posts with same updated time
-        next if warning.css("text").text =~ %r!Two entries with the same value for atom:updated!
-
-        warn "Validation warning: #{warning.css("text").text} on line #{warning.css("line").text} column #{warning.css("column").text}"
-      end
-
-      errors = result.css("error").map do |error|
-        "Validation error: #{error.css("text").text} on line #{error.css("line").text} column #{error.css("column").text}"
-      end
-
-      expect(result.css("validity").text).to eql("true"), errors.join("\n")
+      expect(feed.channel.title).to eql("Pat’s Site")
     end
   end
 
@@ -283,7 +235,7 @@ describe(BridgetownFeed) do
 
   context "feed meta" do
     it "renders the feed meta" do
-      expected = '<link type="application/atom+xml" rel="alternate" href="http://example.org/feed.xml" title="My awesome site" />'
+      expected = '<link type="application/rss+xml" rel="alternate" href="http://example.org/feed.xml" title="My awesome site" />'
       expect(feed_meta).to eql(expected)
     end
 
@@ -347,7 +299,7 @@ describe(BridgetownFeed) do
 
   context "feed stylesheet" do
     it "includes the stylesheet" do
-      expect(contents).to include('<?xml-stylesheet type="text/xml" href="http://example.org/feed.xslt.xml"?>')
+      expect(contents).to include('<?xml-stylesheet href="http://example.org/feed.xslt.xml" type="text/xml"?>')
     end
   end
 
@@ -355,7 +307,7 @@ describe(BridgetownFeed) do
     let(:overrides) { { "lang" => "en-US" } }
 
     it "should set the language" do
-      expect(contents).to match 'type="text/html" hreflang="en-US" />'
+      expect(contents).to match '<language>en-US</language>'
     end
   end
 
@@ -379,7 +331,7 @@ describe(BridgetownFeed) do
         expect(contents).to match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
         expect(contents).to match "http://example.org/news/2014/03/02/march-the-second/"
         expect(contents).to match "http://example.org/news/2013/12/12/dec-the-second/"
-        expect(contents).to match "http://example.org/2015/08/08/stuck-in-the-middle/"
+        expect(contents).to match "http://example.org/2024/02/01/titled/"
         expect(contents).to_not match "http://example.org/2016/02/09/a-draft/"
       end
 
@@ -468,7 +420,7 @@ describe(BridgetownFeed) do
       let(:news_feed) { File.read(dest_dir("feed/collection/news.xml")) }
 
       it "outputs the collection category feed" do
-        expect(news_feed).to match '<title type="html">My awesome site | Collection | News</title>'
+        expect(news_feed).to match '<title>My awesome site | Collection | News</title>'
         expect(news_feed).to match "http://example.org/collection/collection-category-doc/"
         expect(news_feed).to_not match "http://example.org/collection/collection-doc/"
         expect(news_feed).to_not match "http://example.org/updates/bridgetown/2014/03/04/march-the-fourth/"
@@ -503,47 +455,9 @@ describe(BridgetownFeed) do
     end
   end
 
-  context "excerpt_only flag" do
-    context "backward compatibility for no excerpt_only flag" do
-      it "should be in contents" do
-        expect(contents).to match '<content '
-      end
-    end
-
-    context "when site.excerpt_only flag is true" do
-      let(:overrides) do
-        { "feed" => { "excerpt_only" => true } }
-      end
-
-      it "should not set any contents" do
-        expect(contents).to_not match '<content '
-      end
-    end
-
-    context "when site.excerpt_only flag is false" do
-      let(:overrides) do
-        { "feed" => { "excerpt_only" => false } }
-      end
-
-      it "should be in contents" do
-        expect(contents).to match '<content '
-      end
-    end
-
-    context "when post.excerpt_only flag is true" do
-      let(:overrides) do
-        { "feed" => { "excerpt_only" => false } }
-      end
-
-      it "should not be in contents" do
-        expect(contents).to_not match "This content should not be in feed.</content>"
-      end
-    end
-  end
-
   context "post_limit override" do
     it "limit the number of posts by default" do
-      expect(contents.scan("<entry").size).to eq 10
+      expect(contents.scan("<item").size).to eq 10
     end
 
     context "when collection.post_limit is set" do
@@ -560,7 +474,7 @@ describe(BridgetownFeed) do
       end
 
       it "should limit the number of posts" do
-        expect(contents.scan("<entry").size).to eq 1
+        expect(contents.scan("<item").size).to eq 1
       end
     end
 
@@ -574,7 +488,7 @@ describe(BridgetownFeed) do
       end
 
       it "should limit the number of posts" do
-        expect(contents.scan("<entry").size).to eq 1
+        expect(contents.scan("<item").size).to eq 1
       end
     end
   end

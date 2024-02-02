@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require "bridgetown"
-require "typhoeus" unless Gem.win_platform?
-require "nokogiri"
 require "rss"
 
 Bridgetown.begin!

@@ -9,6 +9,10 @@ module BridgetownFeed
       @context = Context.new({ site: site })
       helper "feed_meta", :generate_link_tag
       liquid_tag "feed_meta", :generate_link_tag
+
+      define_resource_method :content_for_rss_feed do |_maker, _view|
+        content
+      end
     end
 
     def generate_link_tag(*)
@@ -29,7 +33,7 @@ module BridgetownFeed
 
     def attributes
       {
-        type: "application/atom+xml",
+        type: "application/rss+xml",
         rel: "alternate",
         href: absolute_url(path),
         title: title,

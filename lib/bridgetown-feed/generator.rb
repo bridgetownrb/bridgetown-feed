@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "feed_maker"
+
 module BridgetownFeed
   class Generator < Bridgetown::Generator
     priority :lowest
@@ -19,12 +21,6 @@ module BridgetownFeed
     end
 
     private
-
-    # Matches all whitespace that follows
-    #   1. A '>', which closes an XML tag or
-    #   2. A '}', which closes a Liquid tag
-    # We will strip all of this whitespace to minify the template
-    MINIFY_REGEX = %r!(?<=>|})\s+!.freeze
 
     # Returns the plugin's config or an empty hash if not set
     def config
@@ -52,8 +48,11 @@ module BridgetownFeed
     def collections
       return @collections if defined?(@collections)
 
+      # TODO: I don't think we need to bother with most of this, due to 
+      # Bridgetown 1.x config format
+
       @collections = if config["collections"].is_a?(Array)
-                       config["collections"].map { |c| [c, {}] }.to_h
+                       config["collections"].to_h { |c| [c, {}] }
                      elsif config["collections"].is_a?(Hash)
                        config["collections"]
                      else
@@ -68,36 +67,32 @@ module BridgetownFeed
       @collections
     end
 
-    # Path to feed.xml template file
-    def feed_source_path
-      @feed_source_path ||= File.expand_path "feed.xml", __dir__
-    end
-
-    def feed_template
-      @feed_template ||= File.read(feed_source_path).gsub(MINIFY_REGEX, "")
-    end
-
     # Checks if a file already exists in the site source
     def file_exists?(file_path)
       File.exist? @site.in_source_dir(file_path)
     end
 
-    # Generates contents for a file
-
+    # Generates contents for an RSS feed
     def make_page(file_path, collection: "posts", category: nil)
-      Bridgetown::GeneratedPage.new(@site, __dir__, "", file_path, from_plugin: true).tap do |file|
-        file.content = feed_template
-        file.data.merge!(
-          "layout"          => "none",
-          "permalink"       => file_path,
-          "template_engine" => "liquid",
-          "sitemap"         => false,
-          "xsl"             => file_exists?("feed.xslt.xml"),
-          "collection"      => collection,
-          "category"        => category
-        )
-        file.output
-      end
+      # We create a Ruby-based view so that we can generate the feed using Ruby's RSS builder gem 
+      rss_feed = Bridgetown::GeneratedPage.new(
+        @site, __dir__, "", file_path.sub(%r{.xml$}, ".rb"), from_plugin: true
+      )
+
+      # Here's the Ruby code we'll want processed through the template system
+      rss_feed.content = <<~RUBY
+        BridgetownFeed::FeedMaker.make_feed(view: self, collection: data.collection, category: data.category, xsl: data.xsl)
+      RUBY
+
+      # Front-matter setup
+      rss_feed.data.layout = "none"
+      rss_feed.data.permalink = file_path
+      rss_feed.data.sitemap = false
+      rss_feed.data.xsl = file_exists?("feed.xslt.xml")
+      rss_feed.data.collection = collection
+      rss_feed.data.category = category if category
+
+      rss_feed
     end
 
     # Special case the "posts" collection, which, for ease of use and backwards

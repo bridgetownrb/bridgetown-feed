@@ -1,5 +1,4 @@
 ---
-excerpt: "Foo"
 image: "/image.png"
 category: news
 ---

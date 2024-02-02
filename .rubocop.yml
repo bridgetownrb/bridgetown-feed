@@ -4,7 +4,7 @@ inherit_gem:
   rubocop-bridgetown: .rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
 
   Exclude:
     - .gitignore
