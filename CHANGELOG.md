@@ -4,6 +4,10 @@
 
 ...
 
+## 3.1.1 / 2024/02-02
+
+* Remove duplicate variable assignment (@jbennett)
+
 ## 3.1.0 / 2024-02-01
 
 * Add an option to set the post_limit (@jbennett)
