@@ -45,7 +45,6 @@
     {% assign posts = posts | where: "category",page.category %}
   {% endif %}
   {% assign post_limit = site.feed.collections[page.collection].post_limit | default: site.feed.post_limit | default: 10 %}
-  {% assign post_limit = site.feed.collections[page.collection].post_limit | default: site.feed.post_limit %}
   {% for post in posts limit: post_limit %}
     <entry{% if post.lang %}{{" "}}xml:lang="{{ post.lang }}"{% endif %}>
       <title type="html">{{ post.title | smartify | strip_html | normalize_whitespace | xml_escape }}</title>
