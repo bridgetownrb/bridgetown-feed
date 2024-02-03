@@ -79,9 +79,13 @@ module BridgetownFeed
         @site, __dir__, "", file_path.sub(%r{.xml$}, ".rb"), from_plugin: true
       )
 
-      # Here's the Ruby code we'll want processed through the template system
+      # Here's the Ruby code we'll want processed through the template system.
+      # Adding the `atom:link` tag here is a little hacky, but there's no simple way to do it
+      # through the RSS maker DSL directly.
       rss_feed.content = <<~RUBY
-        BridgetownFeed::FeedMaker.make_feed(view: self, collection: data.collection, category: data.category, xsl: data.xsl)
+        BridgetownFeed::FeedMaker
+          .make_feed(view: self, collection: data.collection, category: data.category, xsl: data.xsl)
+          .to_s.sub(%r!</channel>\n</rss>$!, %(  <atom:link href="\#{site.config.url}\#{page.relative_url}" rel="self" type="application/rss+xml" />\n  </channel>\n</rss>))
       RUBY
 
       # Front-matter setup

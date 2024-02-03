@@ -1,5 +1,10 @@
 require "rss/maker"
 
+# Add Atom namespace support to RSS 2.0
+RSS::Rss.class_eval do
+  install_ns "atom", "http://www.w3.org/2005/Atom"
+end
+
 module BridgetownFeed
   module FeedMaker
     # rubocop:disable Metrics

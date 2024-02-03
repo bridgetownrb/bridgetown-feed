@@ -134,7 +134,7 @@ describe(BridgetownFeed) do
       expect(feed.feed_type).to eql("rss")
       expect(feed.feed_version).to eql("2.0")
       expect(feed.encoding).to eql("UTF-8")
-      expect(feed.lang).to be_nil
+      expect(feed.channel.language).to be_nil
       expect(feed.valid?).to eql(true)
     end
 
@@ -148,7 +148,7 @@ describe(BridgetownFeed) do
 
     it "includes item contents" do
       post = feed.items.last
-      expect(post.link.href).to eql("http://example.org/news/2013/12/12/dec-the-second/")
+      expect(post.link).to eql("http://example.org/news/2013/12/12/dec-the-second/")
       expect(post.updated.content).to eql(Time.parse("2013-12-12"))
     end
 
@@ -163,17 +163,7 @@ describe(BridgetownFeed) do
       end
 
       it "outputs the correct language" do
-        expect(feed.lang).to eql(lang)
-      end
-
-      it "sets the language of entries" do
-        post = feed.items.first
-        expect(post.lang).to eql(lang)
-      end
-
-      it "renders the feed meta" do
-        expected = %r!<link href="http://example.org/" rel="alternate" type="text/html" hreflang="#{lang}" />!
-        expect(contents).to match(expected)
+        expect(feed.channel.language).to eql(lang)
       end
     end
 
@@ -308,13 +298,6 @@ describe(BridgetownFeed) do
 
     it "should set the language" do
       expect(contents).to match '<language>en-US</language>'
-    end
-  end
-
-  context "with post.lang set" do
-    it "should set the language for that entry" do
-      expect(contents).to match '<entry xml:lang="en">'
-      expect(contents).to match '<entry>'
     end
   end
 
