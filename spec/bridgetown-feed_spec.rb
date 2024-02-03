@@ -149,7 +149,7 @@ describe(BridgetownFeed) do
     it "includes item contents" do
       post = feed.items.last
       expect(post.link).to eql("http://example.org/news/2013/12/12/dec-the-second/")
-      expect(post.updated.content).to eql(Time.parse("2013-12-12"))
+      expect(post.pubDate).to eql(Time.parse("2013-12-12"))
     end
 
     context "with site.lang set" do
@@ -249,18 +249,26 @@ describe(BridgetownFeed) do
     let(:overrides) do
       {
         "feed" => {
-          "path" => "atom.xml",
+          "path" => "rss.xml",
+          "image" => "assets/icon.png"
         },
       }
     end
 
+    let(:overridden_contents) { File.read(dest_dir("rss.xml")) }
+
     it "should write to atom.xml" do
-      expect(Pathname.new(dest_dir("atom.xml"))).to exist
+      expect(Pathname.new(dest_dir("rss.xml"))).to exist
     end
 
     it "renders the feed meta with custom feed path" do
-      expected = 'href="http://example.org/atom.xml"'
+      expected = 'href="http://example.org/rss.xml"'
       expect(feed_meta).to include(expected)
+    end
+
+    it "renders an image inside the feed" do
+      expected = "<url>http://example.org/assets/icon.png</url>"
+      expect(overridden_contents).to include(expected)
     end
   end
 
