@@ -4,7 +4,11 @@
 
 ...
 
-## 3.1.1 / 2024/02-02
+## 3.1.2 / 2024-03-02
+
+* Fix: as readme promises, use `id` from a post's front matter if present
+
+## 3.1.1 / 2024-02-02
 
 * Remove duplicate variable assignment (@jbennett)
 

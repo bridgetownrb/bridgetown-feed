@@ -169,6 +169,11 @@ describe(BridgetownFeed) do
       expect(post.summary).to be_nil
     end
 
+    it "has the correct item ids" do
+      expect(feed.items.first.id.content).to eql("repo://posts.collection/_posts/2016-04-25-author-reference.md")
+      expect(feed.items.last.id.content).to eql("https://example.com/foo")
+    end
+
     context "with site.lang set" do
       lang = "en_US"
       let(:overrides) { { "lang" => lang } }
