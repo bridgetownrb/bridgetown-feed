@@ -583,4 +583,42 @@ describe(BridgetownFeed) do
       end
     end
   end
+
+  describe "feed title override" do
+    let(:feed) { RSS::Parser.parse(contents) }
+
+    context "with posts collection" do
+      let(:overrides) do
+        {
+          "feed" => {
+            "collections" => {
+              "posts" => {}
+            }
+          },
+        }
+      end
+
+      it "doesn't include a posts title" do
+        expect(feed.title.content).not_to include "Posts"
+      end
+    end
+
+    context "with feed title override" do
+      let(:overrides) do
+        {
+          "feed" => {
+            "collections" => {
+              "posts" => {
+                "title": "My Feed"
+              },
+            },
+          },
+        }
+      end
+
+      it "includes the custom title" do
+        expect(feed.title.content).to include "My Feed"
+      end
+    end
+  end
 end

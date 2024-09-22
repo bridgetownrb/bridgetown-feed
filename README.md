@@ -188,6 +188,15 @@ feed:
       path: "/changes.xml"
 ```
 
+By default, collection feeds will have a title based on the collection name. If you'd like to customize the feed title, specify a collection's title as follows:
+
+```yml
+feed:
+  collections:
+    changes:
+      title: "Recent Changes"
+```
+
 Finally, collections can also have category feeds which are outputted as `/feed/<COLLECTION>/<CATEGORY>.xml`. Specify categories like so:
 
 ```yml
