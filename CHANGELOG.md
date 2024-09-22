@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* add option to set a collection feed's title and backing collection
+
 ...
 
 ## 3.1.2 / 2024-03-02

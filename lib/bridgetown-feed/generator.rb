@@ -13,7 +13,7 @@ module BridgetownFeed
           path = feed_path(collection: name, category: category)
           next if file_exists?(path)
 
-          @site.generated_pages << make_page(path, collection: name, category: category)
+          @site.generated_pages << make_page(path, feed_meta: meta, category: category)
         end
       end
     end
@@ -61,8 +61,10 @@ module BridgetownFeed
                      end
 
       @collections = normalize_posts_meta(@collections)
-      @collections.each_value do |meta|
+      @collections.each_pair do |key, meta|
         meta["categories"] = (meta["categories"] || []).to_set
+        meta["title"] ||= key.capitalize
+        meta["collection"] ||= key
       end
 
       @collections
@@ -84,7 +86,7 @@ module BridgetownFeed
 
     # Generates contents for a file
 
-    def make_page(file_path, collection: "posts", category: nil)
+    def make_page(file_path, feed_meta:, category: nil)
       Bridgetown::GeneratedPage.new(@site, __dir__, "", file_path, from_plugin: true).tap do |file|
         file.content = feed_template
         file.data.merge!(
@@ -93,8 +95,8 @@ module BridgetownFeed
           "template_engine" => "liquid",
           "sitemap"         => false,
           "xsl"             => file_exists?("feed.xslt.xml"),
-          "collection"      => collection,
-          "category"        => category
+          "category"        => category,
+          "feed_meta"       => feed_meta
         )
         file.output
       end

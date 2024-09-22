@@ -10,9 +10,8 @@
   <id>{{ page.url | absolute_url | xml_escape }}</id>
 
   {% assign title = site.metadata.title | default: site.metadata.name %}
-  {% if page.collection != "posts" %}
-    {% assign collection = page.collection | capitalize %}
-    {% assign title = title | append: " | " | append: collection %}
+  {% if page.feed_meta.title and page.feed_meta.title != "Posts" %}
+    {% assign title = title | append: " | " | append: page.feed_meta.title %}
   {% endif %}
   {% if page.category %}
     {% assign category = page.category | capitalize %}
@@ -39,12 +38,12 @@
     </author>
   {% endif %}
 
-  {% assign feed_collection = collections[page.collection] %}
+  {% assign feed_collection = collections[page.feed_meta.collection] %}
   {% find posts where feed_collection.resources, draft != true %}
   {% if page.category %}
     {% assign posts = posts | where: "category",page.category %}
   {% endif %}
-  {% assign post_limit = site.feed.collections[page.collection].post_limit | default: site.feed.post_limit | default: 10 %}
+  {% assign post_limit = page.feed_meta.post_limit | default: site.feed.post_limit | default: 10 %}
   {% for post in posts limit: post_limit %}
     {% assign post_id = post.data.id | default: post.id %}
     <entry{% if post.lang %}{{" "}}xml:lang="{{ post.lang }}"{% endif %}>
