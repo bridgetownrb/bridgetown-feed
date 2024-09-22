@@ -38,7 +38,7 @@
     </author>
   {% endif %}
 
-  {% assign feed_collection = collections[page.collection] %}
+  {% assign feed_collection = collections[page.feed_meta.collection] %}
   {% find posts where feed_collection.resources, draft != true %}
   {% if page.category %}
     {% assign posts = posts | where: "category",page.category %}

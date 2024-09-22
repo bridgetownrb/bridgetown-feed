@@ -621,4 +621,40 @@ describe(BridgetownFeed) do
       end
     end
   end
+
+  describe "feed collection override" do
+    context "without specifing the collection" do
+      let(:overrides) do
+        {
+          "feed" => {
+            "collections" => {
+              "posts" => {}
+            }
+          },
+        }
+      end
+
+      it "uses the key name as the collection" do
+        expect(config.feed.collections.posts.collection).to eq "posts"
+      end
+    end
+
+    context "without specifing the collection" do
+      let(:overrides) do
+        {
+          "feed" => {
+            "collections" => {
+              "my_posts" => {
+                "collection" => "posts"
+              }
+            }
+          },
+        }
+      end
+
+      it "uses the key name as the collection" do
+        expect(config.feed.collections.my_posts.collection).to eq "posts"
+      end
+    end
+  end
 end

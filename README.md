@@ -197,6 +197,18 @@ feed:
       title: "Recent Changes"
 ```
 
+By default, collection feeds will use the same collection as the configuration key. If you'd like to customize the collection, or have multiple configurations for a single collection, specify as follows:
+
+```yml
+feed:
+  collections:
+    my_feed:
+      collection: "posts"
+    daily_email: # single article feed for daily email automation
+      collection: "posts"
+      limit: 1
+```
+
 Finally, collections can also have category feeds which are outputted as `/feed/<COLLECTION>/<CATEGORY>.xml`. Specify categories like so:
 
 ```yml
