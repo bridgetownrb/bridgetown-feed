@@ -234,6 +234,16 @@ feed:
       post_limit: 25
 ```
 
+## Icons
+
+You can optionally specify feed's icon and logo relative paths:
+
+```yml
+feed:
+  icon: "/images/icon.png"
+  logo: "/images/logo.png"
+```
+
 ## Testing
 
 * Run `bundle exec rspec` to run the test suite
