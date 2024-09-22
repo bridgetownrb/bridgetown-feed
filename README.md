@@ -194,7 +194,7 @@ By default, collection feeds will have a title based on the collection name. If 
 feed:
   collections:
     changes:
-      title: "Recent Changes"
+      title: Recent Changes
 ```
 
 By default, collection feeds will use the same collection as the configuration key. If you'd like to customize the collection, or have multiple configurations for a single collection, specify as follows:
@@ -203,9 +203,9 @@ By default, collection feeds will use the same collection as the configuration k
 feed:
   collections:
     my_feed:
-      collection: "posts"
+      collection: posts
     daily_email: # single article feed for daily email automation
-      collection: "posts"
+      collection: posts
       limit: 1
 ```
 
