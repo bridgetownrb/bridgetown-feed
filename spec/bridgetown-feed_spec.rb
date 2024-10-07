@@ -23,15 +23,15 @@ describe(BridgetownFeed) do
   let(:metadata_overrides) { {} }
   let(:metadata_defaults) do
     {
-      "name"         => "My awesome site",
-      "author"       => {
+      "name"   => "My awesome site",
+      "author" => {
         "name" => "Dr. Bridgetown",
-      }
+      },
     }
   end
   let(:site) { Bridgetown::Site.new(config) }
   let(:contents) { File.read(dest_dir("feed.xml")) }
-  let(:context)  { make_context(:site => site) }
+  let(:context)  { make_context(site: site) }
   let(:feed_meta) { Liquid::Template.parse("{% feed_meta %}").render!(context, {}) }
   before(:each) do
     metadata = metadata_defaults.merge(metadata_overrides).to_yaml.sub("---\n", "")
@@ -104,9 +104,9 @@ describe(BridgetownFeed) do
   end
 
   context "images" do
-    let(:image1) { 'http://example.org/image.png' }
-    let(:image2) { 'https://cdn.example.org/absolute.png?h=188&amp;w=250' }
-    let(:image3) { 'http://example.org/object-image.png' }
+    let(:image1) { "http://example.org/image.png" }
+    let(:image2) { "https://cdn.example.org/absolute.png?h=188&amp;w=250" }
+    let(:image3) { "http://example.org/object-image.png" }
 
     it "includes the item image" do
       expect(contents).to include(%(<media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="#{image1}" />))
@@ -243,20 +243,22 @@ describe(BridgetownFeed) do
       skip "Typhoeus couldn't find the 'libcurl' module on Windows" if Gem.win_platform?
       # See https://validator.w3.org/docs/api.html
       url = "https://validator.w3.org/feed/check.cgi?output=soap12"
-      response = Typhoeus.post(url, :body => { :rawdata => contents }, :accept_encoding => "gzip")
+      response = Typhoeus.post(url, body: { rawdata: contents }, accept_encoding: "gzip")
       pending "Something went wrong with the W3 validator" unless response.success?
       result = Nokogiri::XML(response.body)
       result.remove_namespaces!
 
       result.css("warning").each do |warning|
         # Quiet a warning that results from us passing the feed as a string
-        next if warning.css("text").text =~ %r!Self reference doesn't match document location!
+        next if %r!Self reference doesn't match document location!.match?(warning.css("text").text)
 
         # Quiet expected warning that results from blank summary test case
-        next if warning.css("text").text =~ %r!(content|summary) should not be blank!
+        next if %r!(content|summary) should not be blank!.match?(warning.css("text").text)
 
         # Quiet expected warning about multiple posts with same updated time
-        next if warning.css("text").text =~ %r!Two entries with the same value for atom:updated!
+        if %r!Two entries with the same value for atom:updated!.match?(warning.css("text").text)
+          next
+        end
 
         warn "Validation warning: #{warning.css("text").text} on line #{warning.css("line").text} column #{warning.css("column").text}"
       end
@@ -356,6 +358,19 @@ describe(BridgetownFeed) do
     end
   end
 
+  context "custom layout" do
+    let(:overrides) do
+      {
+        "feed" => {
+          "template" => "spec/fixtures/src/_layouts/custom_feed.xml",
+        },
+      }
+    end
+    it "uses the custom layout" do
+      expect(contents).to include("<test-attribute>test</test-attribute>")
+    end
+  end
+
   context "with site.lang set" do
     let(:overrides) { { "lang" => "en-US" } }
 
@@ -367,7 +382,7 @@ describe(BridgetownFeed) do
   context "with post.lang set" do
     it "should set the language for that entry" do
       expect(contents).to match '<entry xml:lang="en">'
-      expect(contents).to match '<entry>'
+      expect(contents).to match "<entry>"
     end
   end
 
@@ -511,7 +526,7 @@ describe(BridgetownFeed) do
   context "excerpt_only flag" do
     context "backward compatibility for no excerpt_only flag" do
       it "should be in contents" do
-        expect(contents).to match '<content '
+        expect(contents).to match "<content "
       end
     end
 
@@ -521,7 +536,7 @@ describe(BridgetownFeed) do
       end
 
       it "should not set any contents" do
-        expect(contents).to_not match '<content '
+        expect(contents).to_not match "<content "
       end
     end
 
@@ -531,7 +546,7 @@ describe(BridgetownFeed) do
       end
 
       it "should be in contents" do
-        expect(contents).to match '<content '
+        expect(contents).to match "<content "
       end
     end
 
@@ -557,7 +572,7 @@ describe(BridgetownFeed) do
           "feed" => {
             "collections" => {
               "posts" => {
-                "post_limit": "1"
+                post_limit: "1",
               },
             },
           },
@@ -573,7 +588,7 @@ describe(BridgetownFeed) do
       let(:overrides) do
         {
           "feed" => {
-            "post_limit": 1
+            post_limit: 1,
           },
         }
       end
