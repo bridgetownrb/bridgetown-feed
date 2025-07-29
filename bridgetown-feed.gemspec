@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 2.7.0"
 
-  spec.add_dependency "bridgetown", ">= 1.2.0.beta2", "< 2.0"
+  spec.add_dependency "bridgetown", ">= 1.2.0", "< 2.0"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rss"
