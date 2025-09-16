@@ -70,7 +70,7 @@ module BridgetownFeed
 
     # Path to feed.xml template file
     def feed_source_path
-      @feed_source_path ||= File.expand_path "feed.xml", __dir__
+      @feed_source_path ||= File.expand_path "feed.liquid", __dir__
     end
 
     def feed_template
