@@ -34,14 +34,14 @@ The plugin exposes a helper tag to expose the appropriate meta tags to support a
 
 Simply place `feed_meta` someplace in your layout's `<head>` section to output the necessary metadata.
 
-```liquid
-<!-- layout.liquid -->
-{% feed_meta %}
-```
-
 ```erb
 <!-- layout.erb -->
 <%= feed_meta %>
+```
+
+```liquid
+<!-- layout.liquid -->
+{% feed_meta %}
 ```
 
 The plugin will automatically generate an Atom feed at `/feed.xml`.

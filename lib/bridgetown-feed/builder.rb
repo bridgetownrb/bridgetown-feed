@@ -3,6 +3,7 @@
 module BridgetownFeed
   class Builder < Bridgetown::Builder
     include Bridgetown::Filters::URLFilters
+
     Context = Struct.new(:registers)
 
     def build

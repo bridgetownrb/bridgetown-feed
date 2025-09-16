@@ -2,9 +2,12 @@
 
 ## Unreleased
 
-* add option to set the feed's logo and icon
-
 ...
+
+## 4.0.0 / 2025-09-16
+
+* Enable use with Bridgetown 2.0 (@michaelherold)
+* Add option to specify the feeds icon and logo (@jbennett)
 
 ## 3.1.2 / 2024-03-02
 

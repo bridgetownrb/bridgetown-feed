@@ -2,6 +2,6 @@
 
 module Bridgetown
   module Feed
-    VERSION = "3.1.2"
+    VERSION = "4.0.0"
   end
 end

@@ -3,4 +3,4 @@
 source "https://rubygems.org"
 gemspec
 
-gem "bridgetown", ENV["BRIDGETOWN_VERSION"] if ENV["BRIDGETOWN_VERSION"]
+gem "bridgetown", ENV.fetch("BRIDGETOWN_VERSION", "2.0.0.beta6")
