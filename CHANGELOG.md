@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* add option to set the feed's logo and icon
+
 ...
 
 ## 3.1.2 / 2024-03-02
