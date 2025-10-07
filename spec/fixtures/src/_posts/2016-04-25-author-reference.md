@@ -1,5 +1,4 @@
 ---
-excerpt: ""
 author: garthdb
 ---
 

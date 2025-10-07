@@ -1,5 +1,4 @@
 ---
-excerpt: ""
 author:
   name: Ben
   uri: "http://ben.balter.com"
