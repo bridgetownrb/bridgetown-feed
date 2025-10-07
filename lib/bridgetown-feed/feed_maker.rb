@@ -25,13 +25,26 @@ module BridgetownFeed
         title = view.smartify(title)
         maker.channel.title = title
 
-        description = site.metadata.description || site.metadata.tagline || "RSS Feed"
-        maker.channel.description = description if description
+        description = site.config.dig(:feed, :description) || site.metadata.description ||
+          site.metadata.tagline || "RSS Feed"
+        maker.channel.description = description
 
         maker.channel.generator = "Bridgetown v#{Bridgetown::VERSION}"
         maker.channel.language = site.config.lang if site.config.lang
         maker.channel.updated = Time.now.to_s
         maker.channel.link = site.config.url
+
+        if site.config.dig(:feed, :image)
+          maker.image.url = "#{site.config.url}/#{site.config.feed.image}"
+          #maker.image.link = site.config.url
+          maker.image.title = title
+
+#           <url> is the URL of a GIF, JPEG or PNG image that represents the channel.
+
+# <title> describes the image, it's used in the ALT attribute of the HTML <img> tag when the channel is rendered in HTML.
+
+# <link> is the URL of the site, when the channel is rendered, the image is a link to the site. (Note, in practice the image <title> and <link> should have the same value as the channel's <title> and <link>.
+        end
 
         if site.metadata.author.is_a?(Hash)
           maker.channel.managingEditor =
